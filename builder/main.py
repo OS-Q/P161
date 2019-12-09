@@ -1,141 +1,113 @@
+import sys
 from os.path import join
 
-from SCons.Script import (COMMAND_LINE_TARGETS, AlwaysBuild, Builder, Default,
-                          DefaultEnvironment)
+from SCons.Script import ARGUMENTS, AlwaysBuild, Default, DefaultEnvironment
+
+
+def __getSize(size_type, env):
+    # FIXME: i don't really know how to do this right. see:
+    #        https://community.platformio.org/t/missing-integers-in-board-extra-flags-in-board-json/821
+    return str(env.BoardConfig().get("build", {
+        # defaults
+        "size_heap": 1024,
+        "size_iram": 256,
+        "size_xram": 65536,
+        "size_code": 65536,
+    })[size_type])
+
+
+def _parseSdccFlags(flags):
+    assert flags
+    if isinstance(flags, list):
+        flags = " ".join(flags)
+    flags = str(flags)
+    parsed_flags = []
+    unparsed_flags = []
+    prev_token = ""
+    for token in flags.split(" "):
+        if prev_token.startswith("--") and not token.startswith("-"):
+            parsed_flags.extend([prev_token, token])
+            prev_token = ""
+            continue
+        if prev_token:
+            unparsed_flags.append(prev_token)
+        prev_token = token
+    unparsed_flags.append(prev_token)
+    return (parsed_flags, unparsed_flags)
+
 
 env = DefaultEnvironment()
 board_config = env.BoardConfig()
 
 env.Replace(
-    AR="pic32-ar",
-    AS="pic32-as",
-    CC="pic32-gcc",
-    CXX="pic32-g++",
-    OBJCOPY="pic32-objcopy",
-    RANLIB="pic32-ranlib",
-    SIZETOOL="pic32-size",
+    AR="sdar",
+    AS="sdas8051",
+    CC="sdcc",
+    LD="sdld",
+    RANLIB="sdranlib",
+    OBJCOPY="sdobjcopy",
+    OBJSUFFIX=".rel",
+    LIBSUFFIX=".lib",
+    SIZETOOL=join(env.PioPlatform().get_dir(), "builder", "size.py"),
 
-    ARFLAGS=["rc"],
+    SIZECHECKCMD='$PYTHONEXE $SIZETOOL $SOURCES',
+    SIZEPRINTCMD='"$PYTHONEXE" $SIZETOOL $SOURCES',
+    SIZEPROGREGEXP=r"^ROM/EPROM/FLASH\s+[a-fx\d]+\s+[a-fx\d]+\s+(\d+).*",
 
-    SIZEPROGREGEXP=r"^(?:\.reset|\.startup|\.init|\.fini|\.ctors|\.dtors|\.header_info|\.dinit|\.text\S*|\.rodata\S*|\.romdata\S*|\.data)\s+([0-9]+).*",
-    SIZEDATAREGEXP=r"^(?:\.dbg_data|\.ram_exchange_data|\.sdata|\.sbss|\.data\S*|\.stack|\.bss\S*|\.eh_frame|\.jcr|\.libc\S*|\.heap)\s+([0-9]+).*",
-    SIZECHECKCMD="$SIZETOOL -A -d $SOURCES",
-    SIZEPRINTCMD='$SIZETOOL -B -d $SOURCES',
-
-    UPLOADER="pic32prog",
-    UPLOADERFLAGS=[
-        "-d", '"$UPLOAD_PORT"',
-        "-b", "$UPLOAD_SPEED"
-    ],
-    UPLOADCMD='$UPLOADER $UPLOADERFLAGS $SOURCES',
-
-    PROGSUFFIX=".elf"
+    PROGNAME="firmware",
+    PROGSUFFIX=".hex"
 )
 
-# Allow user to override via pre:script
-if env.get("PROGNAME", "program") == "program":
-    env.Replace(PROGNAME="firmware")
-
-# append LD script manually
-if "LDSCRIPT_PATH" in env:
-    del env['LDSCRIPT_PATH']
-
 env.Append(
-    ASFLAGS=[
-        "-O2",
-        "-Wa,--gdwarf-2",
-        "-mprocessor=$BOARD_MCU"
-    ],
+    ASFLAGS=env.get("CCFLAGS", [])[:],
 
-    CFLAGS=["-std=gnu11"],
+    CFLAGS=[
+        "--std-sdcc11"
+    ],
 
     CCFLAGS=[
-        "-w",
-        "-O2",
-        "-mdebugger",
-        "-mno-smart-io",
-        "-mprocessor=$BOARD_MCU",
-        "-ffunction-sections",
-        "-fdata-sections",
-        "-Wcast-align",
-        "-fno-short-double",
-        "-ftoplevel-reorder"
-    ],
-
-    CXXFLAGS=[
-        "-fno-exceptions",
-        "-std=gnu++11"
+        "--opt-code-size",  # optimize for size
+        "--peep-return",    # peephole optimization for return instructions
+        "-m%s" % board_config.get("build.cpu")
     ],
 
     CPPDEFINES=[
-        ("F_CPU", "$BOARD_F_CPU"),
-        ("MPIDEVER", "16777998"),
-        ("MPIDE", "150")
+        "F_CPU=$BOARD_F_CPU",
+        "HEAP_SIZE=" + __getSize("size_heap", env)
     ],
 
     LINKFLAGS=[
-        "-w",
-        "-Os",
-        "-mdebugger",
-        "-mprocessor=$BOARD_MCU",
-        "-mno-peripheral-libs",
-        "-nostartfiles",
-        "-Wl,--gc-sections"
-    ],
-
-    LIBS=["m"],
-
-    BUILDERS=dict(
-        ElfToHex=Builder(
-            action=env.VerboseAction(" ".join([
-                "pic32-bin2hex",
-                "-a", "$SOURCES"
-            ]), "Building $TARGET"),
-            suffix=".hex"
-        ),
-        ElfToEep=Builder(
-            action=env.VerboseAction(" ".join([
-                "$OBJCOPY",
-                "-O",
-                "ihex",
-                "-j",
-                ".eeprom",
-                '--set-section-flags=.eeprom="alloc,load"',
-                "--no-change-warnings",
-                "--change-section-lma",
-                ".eeprom=0",
-                "$SOURCES",
-                "$TARGET"
-            ]), "Building $TARGET"),
-            suffix=".eep"
-        ),
-    )
+        "-m%s" % board_config.get("build.cpu"),
+        "--iram-size", __getSize("size_iram", env),
+        "--xram-size", __getSize("size_xram", env),
+        "--code-size", __getSize("size_code", env),
+        "--out-fmt-ihx"
+    ]
 )
 
-if int(board_config.get("upload.maximum_ram_size", 0)) < 65535:
-    env.Append(
-        ASFLAGS=["-G1024"],
-        CCFLAGS=["-G1024"]
-    )
+if int(ARGUMENTS.get("PIOVERBOSE", 0)):
+    env.Prepend(UPLOADERFLAGS=["-v"])
+
+# parse manually SDCC flags
+if env.get("BUILD_FLAGS"):
+    _parsed, _unparsed = _parseSdccFlags(env.get("BUILD_FLAGS"))
+    env.Append(CCFLAGS=_parsed)
+    env['BUILD_FLAGS'] = _unparsed
+
+project_sdcc_flags = None
+if env.get("SRC_BUILD_FLAGS"):
+    project_sdcc_flags, _unparsed = _parseSdccFlags(env.get("SRC_BUILD_FLAGS"))
+    env['SRC_BUILD_FLAGS'] = _unparsed
 
 #
 # Target: Build executable and linkable firmware
 #
 
-target_elf = None
-if "nobuild" in COMMAND_LINE_TARGETS:
-    target_elf = join("$BUILD_DIR", "${PROGNAME}.elf")
-    target_firm = join("$BUILD_DIR", "${PROGNAME}.hex")
-else:
-    target_elf = env.BuildProgram()
+target_firm = env.BuildProgram()
 
-    env.Append(LINKFLAGS=[
-        "-Wl,--script=%s" % board_config.get("build.ldscript", ""),
-        "-Wl,--script=chipKIT-application-COMMON%s.ld" %
-        ("-MZ" if "MZ" in board_config.get("build.mcu", "") else "")
-    ])
-
-    target_firm = env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+if project_sdcc_flags:
+    env.Import("projenv")
+    projenv.Append(CCFLAGS=project_sdcc_flags)
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
@@ -145,7 +117,7 @@ target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 #
 
 target_size = env.Alias(
-    "size", target_elf,
+    "size", target_firm,
     env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
 AlwaysBuild(target_size)
 
@@ -153,14 +125,39 @@ AlwaysBuild(target_size)
 # Target: Upload firmware
 #
 
-target_upload = env.Alias(
-    "upload", target_firm,
-    [env.VerboseAction(env.AutodetectUploadPort, "Looking for upload port..."),
-     env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")])
-AlwaysBuild(target_upload)
+upload_protocol = env.subst("$UPLOAD_PROTOCOL")
+upload_actions = []
+
+if upload_protocol == "stcgal":
+    f_cpu_khz = int(board_config.get("build.f_cpu")) / 1000
+    stcgal_protocol = board_config.get("upload.stcgal_protocol")
+    stcgal = join(env.PioPlatform().get_package_dir("tool-stcgal") or "", "stcgal.py")
+    env.Replace(
+        UPLOADERFLAGS=[
+            "-P", stcgal_protocol,
+            "-p", "$UPLOAD_PORT",
+            "-t", int(f_cpu_khz),
+            "-a"
+        ],
+        UPLOADCMD="python3 %s $UPLOADERFLAGS $SOURCE" % stcgal )
+
+    upload_actions = [
+        env.VerboseAction(env.AutodetectUploadPort,
+                          "Looking for upload port..."),
+        env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
+    ]
+
+# custom upload tool
+elif upload_protocol == "custom":
+    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+
+else:
+    sys.stderr.write("Warning! Unknown upload protocol %s\n" % upload_protocol)
+
+AlwaysBuild(env.Alias("upload", target_firm, upload_actions))
 
 #
-# Default targets
+# Setup default targets
 #
 
 Default([target_buildprog, target_size])

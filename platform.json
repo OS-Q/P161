@@ -1,42 +1,40 @@
 {
-  "name": "H5",
-  "title": "H5",
-  "description": "PIC32开发平台",
-  "url": "http://www.microchip.com/design-centers/32-bit",
-  "homepage": "http://platformio.org/platforms/microchippic32",
-  "license": "Apache-2.0",
+  "name": "H05",
+  "title": "H05",
+  "description": "H05 : 8051 core",
+  "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
+  "homepage": "http://www.OS-Q.com/H05",
+  "license": "MIT",
   "engines": {
     "platformio": "<5"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/platformio/platform-microchippic32.git"
-  },
-  "version": "1.6.0",
-  "packageRepositories": [
-    "https://dl.bintray.com/platformio/dl-packages/manifest.json",
-    "http://dl.platformio.org/packages/manifest.json"
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/OS-Q/H05.git"
+    },
+    "authors": [{
+      "name": "qitas",
+      "email": "qitas@qitas.cn",
+      "url": "https://www.OS-Q.com"
+  }],
+    "keywords": "OS-Q ,8051",
+    "version": "1.0.0",
+    "packageRepositories": [
+      "http://182.61.61.133/link/toolchain/manifest.json",
+      "http://182.61.61.133/link/framework/manifest.json",
+      "http://182.61.61.133/link/platformio.json",
+      "http://182.61.61.133/link/platform.json",
+      "http://dl.platformio.org/packages/manifest.json",
+      "https://dl.bintray.com/platformio/dl-packages/manifest.json"
   ],
-  "frameworks": {
-    "arduino": {
-      "package": "framework-arduinomicrochippic32",
-      "script": "builder/frameworks/arduino.py"
-    }
-  },
   "packages": {
-    "toolchain-microchippic32": {
+    "toolchain-sdcc": {
       "type": "toolchain",
-      "version": "~1.40803.0"
+      "version": "~1.30804.10766"
     },
-    "framework-arduinomicrochippic32": {
-      "type": "framework",
-      "optional": true,
-      "version": "~1.20006.0"
-    },
-    "tool-pic32prog": {
+    "tool-stcgal": {
       "type": "uploader",
-      "optional": true,
-      "version": "~2.20146.0"
+      "version": "~1.104.0"
     }
   }
 }
