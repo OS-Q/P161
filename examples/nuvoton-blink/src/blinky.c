@@ -1,10 +1,3 @@
-//
-// STC15F204EA blinky example
-// inspired by http://jjmz.free.fr/?p=179 http://jjmz.free.fr/?p=191
-// and stc15f204ea datasheet
-//
-
-#include <stc12.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -40,7 +33,7 @@ void _delay_ms(unsigned char ms)
     } while (--ms);
 }
 
-const char* startstring = "\nSTC15F204EA starting up...\n";
+const char* startstring = "\nstarting up...\n";
 
 int main()
 {
