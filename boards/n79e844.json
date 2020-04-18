@@ -5,6 +5,7 @@
     "f_cpu": "22118400L",
     "size_iram": 256,
     "size_xram": 256,
+    "size_heap": 128,
     "size_code": 8192,
     "mcu": "n79e844",
     "cpu": "mcs51",
