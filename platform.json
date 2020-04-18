@@ -33,7 +33,7 @@
     },
     "tool-stcgal": {
       "type": "uploader",
-      "version": "~1.104.0"
+      "version": "~1.6.1"
     }
   }
 }
