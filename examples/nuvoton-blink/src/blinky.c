@@ -4,15 +4,12 @@
 /* ------------------------------------------------------------------------- */
 /* Printing functions */
 /* ------------------------------------------------------------------------- */
-
-//#include "./soft_serial/serial.h"
+#include "N76E003.h"
 #include "serial.h"
+
 #define printf printf_small     // see sdcc user guide
 
-// P0.1 called P5.5 on my board?
-#define LED P1_6     
-
-/* ------------------------------------------------------------------------- */
+#define LED P16  
 
 // counter
 int temp = 100;
@@ -39,12 +36,9 @@ int main()
 {
     /* init the software uart */
     UART_INIT();
-
     /* simple greeting message */
     printf("%s", startstring);
-    
     LED = 1;
-    
     while(1)
     {                
         LED = 0;
@@ -61,7 +55,7 @@ int main()
         _delay_ms(250);
         printf("counter: %d \n", temp);
         temp++;
-        WDT_CONTR |= 1 << 4; // clear wdt
+        // WDT_CONTR |= 1 << 4; // clear wdt
     }
 }
 /* ------------------------------------------------------------------------- */
