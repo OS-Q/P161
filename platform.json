@@ -29,7 +29,7 @@
   "packages": {
     "toolchain-sdcc": {
       "type": "toolchain",
-      "version": "~1.30804.10766"
+      "version": "~4.0.0"
     },
     "tool-stcgal": {
       "type": "uploader",
