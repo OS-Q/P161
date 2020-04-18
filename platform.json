@@ -6,7 +6,7 @@
   "homepage": "http://www.OS-Q.com/H05",
   "license": "Apache-2.0",
   "engines": {
-    "platformio": "<5"
+    "platformio": ">=4"
   },
     "repository": {
       "type": "git",
@@ -17,7 +17,7 @@
       "email": "qitas@qitas.cn",
       "url": "http://www.qitas.cn"
     }],
-    "keywords": "OS-Q,H01,MCS-51,8051",
+    "keywords": "OS-Q,H05,MCS-51,8051",
     "version": "1.2.3",
     "packageRepositories": [
       "http://182.61.61.133/link/toolchain/manifest.json",
