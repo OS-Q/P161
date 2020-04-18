@@ -9,11 +9,8 @@ env:
   - PLATFORMIO_PROJECT_DIR=examples/stc-header
 
 install:
-  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
+  - pip install -U http://182.61.61.133/dl/platformio-core-develop.zip
   - platformio platform install file://.
 
 script:
   - platformio run -d $PLATFORMIO_PROJECT_DIR
-
-notifications:
-  email: false

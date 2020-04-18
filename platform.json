@@ -1,7 +1,7 @@
 {
   "name": "H05",
   "title": "H05",
-  "description": "传统8051平台，基于MCS-51内核，该框架主要芯片面向WCH,nuvoton,STC等众多高性价比产品",
+  "description": "8051开发平台，基于MCS-51内核，该框架主要芯片面向WCH,nuvoton,STC等众多高性价比51单片机",
   "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
   "homepage": "http://www.OS-Q.com/H05",
   "license": "Apache-2.0",
@@ -29,7 +29,7 @@
   "packages": {
     "toolchain-sdcc": {
       "type": "toolchain",
-      "version": "~4.0.0"
+      "version": ">=1.30804.10766"
     },
     "tool-stcgal": {
       "type": "uploader",
