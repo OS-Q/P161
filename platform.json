@@ -1,10 +1,10 @@
 {
   "name": "H05",
   "title": "H05",
-  "description": "H05 : 8051 core",
+  "description": "Intel MCS-51 Harvard architecture,传统8051单片机",
   "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
   "homepage": "http://www.OS-Q.com/H05",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "platformio": "<5"
   },
@@ -15,17 +15,16 @@
     "authors": [{
       "name": "qitas",
       "email": "qitas@qitas.cn",
-      "url": "https://www.OS-Q.com"
-  }],
-    "keywords": "OS-Q ,8051",
-    "version": "1.0.0",
+      "url": "http://www.qitas.cn"
+    }],
+    "keywords": "OS-Q,H01,MCS-51,8051",
+    "version": "1.2.2",
     "packageRepositories": [
       "http://182.61.61.133/link/toolchain/manifest.json",
+      "http://182.61.61.133/link/toolchain/openocd.json",
       "http://182.61.61.133/link/framework/manifest.json",
       "http://182.61.61.133/link/platformio.json",
-      "http://182.61.61.133/link/platform.json",
-      "http://dl.platformio.org/packages/manifest.json",
-      "https://dl.bintray.com/platformio/dl-packages/manifest.json"
+      "http://182.61.61.133/link/platform.json"
   ],
   "packages": {
     "toolchain-sdcc": {
