@@ -1,23 +1,23 @@
 {
-  "name": "H05",
-  "title": "H05",
-  "description": "8051开发平台，基于MCS-51内核，该框架主要芯片面向WCH,nuvoton,STC等众多高性价比51单片机",
+  "name": "H01",
+  "title": "H01",
+  "description": "MCS-51单片机类8051/8052内核，支持芯片产品包括STC,WCH,nuvoton等，官方驱动库支持",
   "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
-  "homepage": "http://www.OS-Q.com/H05",
+  "homepage": "http://www.OS-Q.com/H01",
   "license": "Apache-2.0",
   "engines": {
     "platformio": ">=4"
   },
     "repository": {
       "type": "git",
-      "url": "https://github.com/OS-Q/H05.git"
+      "url": "https://github.com/OS-Q/H01.git"
     },
     "authors": [{
       "name": "qitas",
       "email": "qitas@qitas.cn",
       "url": "http://www.qitas.cn"
     }],
-    "keywords": "OS-Q,H05,MCS-51,8051",
+    "keywords": "OS-Q,H01,MCS-51,8051",
     "version": "1.2.3",
     "packageRepositories": [
       "http://182.61.61.133/link/toolchain/manifest.json",
