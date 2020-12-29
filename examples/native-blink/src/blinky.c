@@ -1,15 +1,25 @@
+//
+// STC15F204EA blinky example
+// inspired by http://jjmz.free.fr/?p=179 http://jjmz.free.fr/?p=191
+// and stc15f204ea datasheet
+//
+
+#include <stc12.h>
 #include <stdint.h>
 #include <stdio.h>
 
 /* ------------------------------------------------------------------------- */
 /* Printing functions */
 /* ------------------------------------------------------------------------- */
-#include "N76E003.h"
-#include "serial.h"
 
+//#include "./soft_serial/serial.h"
+#include "serial.h"
 #define printf printf_small     // see sdcc user guide
 
-#define LED P16  
+// P0.1 called P5.5 on my board?
+#define LED P1_6     
+
+/* ------------------------------------------------------------------------- */
 
 // counter
 int temp = 100;
@@ -30,15 +40,18 @@ void _delay_ms(unsigned char ms)
     } while (--ms);
 }
 
-const char* startstring = "\nstarting up...\n";
+const char* startstring = "\nSTC15F204EA starting up...\n";
 
 int main()
 {
     /* init the software uart */
     UART_INIT();
+
     /* simple greeting message */
     printf("%s", startstring);
+    
     LED = 1;
+    
     while(1)
     {                
         LED = 0;
@@ -55,7 +68,7 @@ int main()
         _delay_ms(250);
         printf("counter: %d \n", temp);
         temp++;
-        // WDT_CONTR |= 1 << 4; // clear wdt
+        WDT_CONTR |= 1 << 4; // clear wdt
     }
 }
 /* ------------------------------------------------------------------------- */

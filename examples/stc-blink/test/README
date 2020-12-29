@@ -1,5 +1,0 @@
-
-### bug
-
-Uploading .pio\build\stc15w408as\firmware.hex
-Python was not found but can be installed from the Microsoft Store: https://go.microsoft.com/fwlink?linkID=2082640scons: *** [upload] Error 9009

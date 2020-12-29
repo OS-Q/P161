@@ -1,14 +1,21 @@
-// #include <stc12.h>
-#include "N76E003.h"
-
+/*--------------------------------------------------------------------------------*/
+/* --- STC MCU International Limited -----------------------------------*/
+/* --- STC 15 Series I/O simulate serial port ----------------------------*/
+/* --- Web: www.STCMCU.com -----------------------------------------*/
+/* If you want to use the program or the program referenced in the */
+/* article, please specify in which data and procedures from STC */
+/*-------------------------------------------------------------------------------*/
+#include <stc12.h>
 #define SYSCLOCK    11059200
 #define BAUDRATE    9600
 #define BAUDTMR     ((0 - (SYSCLOCK / 3 / BAUDRATE)) & 0xFFFF)
 //#define BAUDTMR 	0xFE80 	// 9600bps @ 11.0592MHz
 
 
-#define RXB P30
-#define TXB P31
+#define RXB P3_0
+#define _RXB _P3_0
+#define TXB P3_1
+#define _TXB _P3_1
 		
 //define UART TX/RX port
 typedef __bit BOOL;
@@ -139,12 +146,15 @@ void UART_INIT()
 	RING = 0;
 	TEND = 1;
 	REND = 0;
-
-	SCON = 0x50;     	//UART0 Mode1,REN=1,TI=1
-    TMOD |= 0x20;    	//Timer1 Mode1
-
-	TH1 = 256 - (1000000/9600+1);  /*16 MHz */
-	TR1	= 1;
-	TI = 1;
+	TCNT = 0;
+	RCNT = 0;
+	TMOD &= 0x0F; // Timer1 Mode 0
+	AUXR |= 0x40; // T1x12
+	TL1 = BAUDTMR & 0xFF;
+	TH1 = (BAUDTMR & 0xFF00) >> 8;
+	TR1 = 1;
+	ET1 = 1;
+	PT1 = 1;
 	EA = 1;
 }
+
