@@ -1,4 +1,4 @@
-.pioenvs
-.piolibdeps
-.pio/
-.vscode/
+*.pioenvs
+*.piolibdeps
+*.pio/
+*.vscode/

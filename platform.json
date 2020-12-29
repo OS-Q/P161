@@ -1,39 +1,34 @@
 {
-  "name": "H01",
-  "title": "H01",
-  "description": "MCS-51单片机类8051/8052内核，支持芯片产品包括STC,WCH,nuvoton等，官方驱动库支持",
-  "url": "https://en.wikipedia.org/wiki/Intel_MCS-51",
-  "homepage": "http://www.OS-Q.com/H01",
+  "name": "P07",
+  "title": "Intel MCS-51 (8051)",
+  "description": "The Intel MCS-51 (commonly termed 8051) is an internally Harvard architecture, complex instruction set computer (CISC) instruction set, single chip microcontroller (uC) series developed by Intel in 1980 for use in embedded systems.",
+  "homepage": "https://en.wikipedia.org/wiki/Intel_MCS-51",
   "license": "Apache-2.0",
-  "engines": {
-    "platformio": ">=4"
-  },
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/OS-Q/H01.git"
-    },
-    "authors": [{
-      "name": "qitas",
-      "email": "qitas@qitas.cn",
-      "url": "http://www.qitas.cn"
-    }],
-    "keywords": "OS-Q,H01,MCS-51,8051",
-    "version": "1.2.3",
-    "packageRepositories": [
-      "http://182.61.61.133/link/toolchain/manifest.json",
-      "http://182.61.61.133/link/toolchain/openocd.json",
-      "http://182.61.61.133/link/framework/manifest.json",
-      "http://182.61.61.133/link/platformio.json",
-      "http://182.61.61.133/link/platform.json"
+  "keywords": [
+      "dev-platform",
+      "Intel",
+      "MCS-51",
+      "8051",
+      "CISC"
   ],
+  "engines": {
+    "platformio": "^5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/platformio/platform-intel_mcs51.git"
+  },
+  "version": "1.2.3",
   "packages": {
     "toolchain-sdcc": {
       "type": "toolchain",
-      "version": ">=1.30804.10766"
+      "owner": "platformio",
+      "version": "~1.30804.10766"
     },
     "tool-stcgal": {
       "type": "uploader",
-      "version": "~1.6.1"
+      "owner": "platformio",
+      "version": "~1.104.0"
     }
   }
 }
