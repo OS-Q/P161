@@ -143,7 +143,7 @@ if upload_protocol == "stcgal":
 
     upload_actions = [
         env.VerboseAction(env.AutodetectUploadPort,
-                          "Looking for upload port..."),
+                        "Looking for upload port..."),
         env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
     ]
 
