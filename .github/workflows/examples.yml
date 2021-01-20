@@ -1,4 +1,4 @@
-name: P07
+name: P03
 
 on: [push, pull_request]
 
@@ -8,11 +8,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.7]
+        python-version: [3.8]
         example:
           - "examples/native-blink"
           - "examples/stc-blink"
           - "examples/stc-header"
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
