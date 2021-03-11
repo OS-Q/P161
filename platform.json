@@ -27,6 +27,7 @@
     },
     "tool-stcgal": {
       "type": "uploader",
+      "optional": true,
       "owner": "platformio",
       "version": "~1.104.0"
     }
