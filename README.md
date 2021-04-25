@@ -10,10 +10,6 @@
 
 ### [简介](https://github.com/OS-Q/P16/wiki)
 
-[P16](https://github.com/OS-Q/P16) 用于 [STM8S](https://www.st.com/zh/microcontrollers-microprocessors/stm8s-series.html) 开发
-
-#### [平台特性](https://github.com/SoCXin/STM8S003)
-
-产品丰富，低成本，集成EEPROM，使用SDCC编译。
+[P16](https://github.com/OS-Q/P16) 用于 STC 单片机开发
 
 ### [源圈 OS-Q (Open Source & QA) ](http://www.OS-Q.com)
