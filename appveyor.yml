@@ -6,11 +6,14 @@ environment:
     - PLATFORMIO_PROJECT_DIR: "examples/stc-blink"
     - PLATFORMIO_PROJECT_DIR: "examples/stc-header"
 
+platform:
+  - x64
 install:
-- cmd: git submodule update --init --recursive
-- cmd: SET PATH=C:\Python37\Scripts;%PATH%
-- cmd: pip3 install -U https://github.com/OS-Q/S03/archive/master.zip
-- cmd: qio platform install file://.
+  - cmd: git submodule update --init --recursive
+  - cmd: SET PATH=C:\Python37\Scripts;%PATH%
+  - cmd: pip3 install platformio
+  - cmd: pio update
+  - cmd: pio platform install file://.
 
 test_script:
-- cmd: qio run -d %PLATFORMIO_PROJECT_DIR%
+  - cmd: pio run -d %PLATFORMIO_PROJECT_DIR%

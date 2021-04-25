@@ -1,6 +1,11 @@
 language: python
 python:
-  - "3.7"
+  - "3.9"
+os:
+  - linux
+
+git:
+  depth: 1
 
 env:
   - PLATFORMIO_PROJECT_DIR=examples/native-blink
@@ -8,8 +13,9 @@ env:
   - PLATFORMIO_PROJECT_DIR=examples/stc-header
 
 install:
-  - pip install -U https://github.com/OS-Q/S03/archive/master.zip
-  - qio platform install file://.
+  - pip install platformio
+    pio update
+  - pio platform install file://.
 
 script:
   - qio run -d $PLATFORMIO_PROJECT_DIR

@@ -1,3 +1,16 @@
+*.db
 *.pyc
-*.pio/
+__pycache__/
 *.vscode/
+*.pio/
+*.rst
+# *.md
+**/*/README*
+LICENSE*
+*.png
+*.jpg
+examples/**/*.yml
+examples/**/*.md
+**/CONTR*
+**/CHANGE*
+n79e*
