@@ -106,7 +106,7 @@ jobs:
           git log --stat -1 >> qio/log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> qio/mail.md
           echo $(date +"%Y.%m.%d") >> qio/mail.md
-          zip -r package.zip boards builder extend misc link.json link.py platform.json platform.py
+          zip -r package.zip boards builder extend link.json link.py platform.json platform.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
