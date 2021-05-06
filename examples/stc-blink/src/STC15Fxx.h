@@ -55,7 +55,7 @@ SBIT(P12, _P1, 2);
 SBIT(P13, _P1, 3);
 SBIT(P14, _P1, 4);
 SBIT(P15, _P1, 5);
-SBIT(P16, _P1, 6);
+SBIT(P13, _P1, 6);
 SBIT(P17, _P1, 7);
 #define _P2 0xA0
 SFR(P2, 0xA0);          //1111,1111 端口2

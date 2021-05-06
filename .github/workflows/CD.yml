@@ -91,7 +91,7 @@ jobs:
 
       - name: Generate tag
         id: tag
-        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'OS-Q/P16'
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'OS-Q/P13'
         run: |
           echo "::set-output name=release_tag::release_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
           echo "::set-output name=status::success"
@@ -99,7 +99,7 @@ jobs:
       - name: Package
         id: package
         run: |
-          echo "Platform P16 for STC MCU" >> qio/log.txt
+          echo "Platform P13 for STC MCU" >> qio/log.txt
           echo $(date +"%Y.%m.%d") >> qio/log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> qio/log.txt
           echo -e "www.OS-Q.com\n" >> qio/log.txt
@@ -114,7 +114,7 @@ jobs:
         if: steps.package.outputs.status == 'success' && !cancelled()
         uses: actions/upload-artifact@v2
         with:
-          name: P16
+          name: P13
           path: ${{ env.FIRMWARE }}/package.zip
 
       - name: Upload Release
@@ -139,10 +139,10 @@ jobs:
       - name: Upload OSS
         id: OSS
         run: |
-          cp package.zip P16.zip
-          cp package.zip P16_${GITHUB_REF/refs\/tags\//}.zip
-          ossutil cp ${{ env.FIRMWARE }}/P16.zip ${{ secrets.OSS_P_BUCKET }} -rf
-          ossutil cp ${{ env.FIRMWARE }}/P16_${GITHUB_REF/refs\/tags\//}.zip ${{ secrets.OSS_P_BUCKET }} -f
+          cp package.zip P13.zip
+          cp package.zip P13_${GITHUB_REF/refs\/tags\//}.zip
+          ossutil cp ${{ env.FIRMWARE }}/P13.zip ${{ secrets.OSS_P_BUCKET }} -rf
+          ossutil cp ${{ env.FIRMWARE }}/P13_${GITHUB_REF/refs\/tags\//}.zip ${{ secrets.OSS_P_BUCKET }} -f
           echo "::set-output name=status::success"
 
   release_pass:
@@ -222,7 +222,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install https://github.com/OS-Q/P16/releases/latest/download/package.zip
+          qio platform install https://github.com/OS-Q/P13/releases/latest/download/package.zip
           echo "::set-output name=status::success"
 
       - name: ReBuild
@@ -240,13 +240,13 @@ jobs:
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: OS-Q P16 package released
+          subject: OS-Q P13 package released
           to: ${{secrets.MAIL_TO}}
           from: Qitas
           cc: ${{github.event.pusher.email}}
           content_type: text/html
           convert_markdown: true
-          attachments: https://github.com/OS-Q/P16/releases/latest/download/log.txt
+          attachments: https://github.com/OS-Q/P13/releases/latest/download/log.txt
           body: file://./qio/mail.md
 
 
