@@ -7,7 +7,6 @@
 [![Build Status](https://circleci.com/gh/OS-Q/P13.svg?style=svg)](https://circleci.com/gh/OS-Q/P13)
 [![Build Status](https://travis-ci.com/OS-Q/P13.svg?branch=master)](https://travis-ci.com/OS-Q/P13)
 [![Build Status](https://cloud.drone.io/api/badges/OS-Q/P13/status.svg)](https://cloud.drone.io/OS-Q/P13)
-[![Build status](https://ci.appveyor.com/api/projects/status/2k7vnde38o142o0u?svg=true)](https://ci.appveyor.com/project/Qitas/P13)
 
 ### [简介](https://github.com/OS-Q/P13/wiki)
 
