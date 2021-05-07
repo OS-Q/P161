@@ -10,7 +10,10 @@ steps:
   - git submodule update --init --recursive
   - pip install platformio
   - qio platform install https://github.com/OS-Q/P13/archive/pio.zip
-  - qio run -d examples/spl-blink
+  - pio run -d examples/native-blink
+  - pio run -d examples/stc-blink
+  - pio run -d examples/stc-header
+
 
 - name: PIO
   image: python:3
