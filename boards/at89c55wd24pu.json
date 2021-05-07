@@ -1,0 +1,19 @@
+{
+  "build": {
+    "f_cpu": "11059200",
+    "size_iram": 256,
+    "size_xram": 256,
+    "size_code": 20480,
+    "size_heap": 128,
+    "mcu": "at89c55wd24pu",
+    "cpu": "mcs51"
+  },
+  "frameworks": [],
+  "upload": {
+    "maximum_ram_size": 256,
+    "maximum_size": 20480
+  },
+  "name": "Generic at89c55wd24pu",
+  "url": "http://ww1.microchip.com/downloads/en/DeviceDoc/doc1921.pdf",
+  "vendor": "STC"
+}
