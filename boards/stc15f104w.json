@@ -1,0 +1,22 @@
+{
+  "build": {
+    "f_cpu": "11059200",
+    "size_iram": 128,
+    "size_xram": 0,
+    "size_code": 4096,
+    "size_heap": 64,
+    "mcu": "stc15f104w",
+    "cpu": "mcs51"
+  },
+  "frameworks": [],
+  "upload": {
+    "maximum_ram_size": 128,
+    "maximum_size": 4096,
+    "protocol": "stcgal",
+    "stcgal_protocol": "stc15",
+    "protocols": ["stcgal"]
+  },
+  "name": "Generic STC15F104W",
+  "url": "https://www.stcmicro.com/STC/STC15F104W.html",
+  "vendor": "STC"
+}
