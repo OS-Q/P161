@@ -14,7 +14,7 @@ jobs:
             git submodule update --init --recursive
             python -m pip install --upgrade pip
             pip install platformio
-            pio platform install https://github.com/OS-Q/P13/archive/pio.zip
+            pio platform install https://github.com/OS-Q/P121/archive/pio.zip
       - run:
           name: "Build"
           command: |
@@ -35,7 +35,7 @@ jobs:
             git submodule update --init --recursive
             python -m pip install --upgrade pip
             pip install -U https://github.com/platformio/platformio/archive/develop.zip
-            pio platform install https://github.com/OS-Q/P13/archive/pio.zip
+            pio platform install https://github.com/OS-Q/P121/archive/pio.zip
       - run:
           name: "Build"
           command: |

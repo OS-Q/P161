@@ -9,7 +9,7 @@ steps:
   - apt install -y git
   - git submodule update --init --recursive
   - pip install platformio
-  - qio platform install https://github.com/OS-Q/P13/archive/pio.zip
+  - qio platform install https://github.com/OS-Q/P121/archive/pio.zip
   - pio run -d examples/native-blink
   - pio run -d examples/stc-blink
   - pio run -d examples/stc-header
@@ -22,7 +22,7 @@ steps:
   - apt install -y git
   - git submodule update --init --recursive
   - pip install -U https://github.com/platformio/platformio/archive/develop.zip
-  - pio platform install https://github.com/OS-Q/P13/archive/pio.zip
+  - pio platform install https://github.com/OS-Q/P121/archive/pio.zip
   - pio run -d examples/native-blink
   - pio run -d examples/stc-blink
   - pio run -d examples/stc-header
